@@ -1,5 +1,3 @@
-#include<bits/stdc++.h>
-using namespace std;
 class disjoint {
 public:
     vector<int> rank, parent, size;
@@ -46,21 +44,33 @@ public:
         }
     }
 };
-
-int main()
-{
-  disjoint ds(7);
-  ds.unionBysize(1,2);
-  ds.unionBysize(2,3);
-  ds.unionBysize(4,5);
-  ds.unionBysize(6,7);
-  ds.unionBysize(5,6);
-  if(ds.findparent(3)==ds.findparent(7))
-   cout<<"same"<<endl;
-  else cout<<"Not same"<<endl;
-  ds.unionBysize(3,7);
-  if(ds.findparent(3)==ds.findparent(7))
-   cout<<"same"<<endl;
-  else cout<<"Not same"<<endl;
-  return 0;
-}
+class Solution {
+public:
+    int removeStones(vector<vector<int>>& stones) {
+        int n=stones.size();
+        int maxrow=0;
+        int maxcol=0;
+        for(auto it:stones)
+        {
+            maxrow=max(maxrow,it[0]);
+            maxcol=max(maxcol,it[1]);
+        }
+        disjoint ds(maxrow+maxcol+1);
+        unordered_map<int,int>stonemap;
+        for(auto it:stones)
+        {
+            int noderow=it[0];
+            int nodecol=it[1]+maxrow+1;
+            ds.unionBysize(noderow,nodecol);
+            stonemap[noderow]=1;
+            stonemap[nodecol]=1;
+        }
+        int count=0;
+        for(auto it:stonemap)
+        {
+            if(ds.findparent(it.first)==it.first)
+             count++;
+        }
+        return n-count;
+    }
+};
