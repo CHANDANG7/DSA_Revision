@@ -42,7 +42,7 @@ public:
         }
         else {
             parent[up_v] = up_u;
-            size[up_u] += size[up_v];  // Fix here
+            size[up_u] += size[up_v]; 
         }
     }
 };
